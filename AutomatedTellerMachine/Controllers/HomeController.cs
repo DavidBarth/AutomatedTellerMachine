@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace AutomatedTellerMachine.Controllers
 {
@@ -22,7 +18,15 @@ namespace AutomatedTellerMachine.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Having trouble? Send us a message!";
+
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Contact(string msg)
+        {
+            ViewBag.Message = "Thanks! We got your message!";
 
             return View();
         }
