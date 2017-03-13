@@ -25,9 +25,16 @@ namespace AutomatedTellerMachine.Models
          *    }
          * }
          * */
-        public string Name => $"{FirstName} {LastName}"; //combines first and last name - string interpolation, expression body
+        //combines first and last name - string interpolation, expression body
+        public string Name => $"{FirstName} {LastName}"; 
 
         [DataType(DataType.Currency)]
         public decimal Balance { get; set; }
+
+        //for assigning a User object
+        public virtual  ApplicationUser User { get; set; }
+
+        //id property of the related applicationuser entity
+        public string ApplicationUserId { get; set; }
     }
 }

@@ -1,14 +1,12 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
+﻿using AutomatedTellerMachine.Models;
+using AutomatedTellerMachine.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using AutomatedTellerMachine.Models;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace AutomatedTellerMachine.Controllers
 {
@@ -147,7 +145,7 @@ namespace AutomatedTellerMachine.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(ViewModels.RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -155,6 +153,23 @@ namespace AutomatedTellerMachine.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    var db = new ApplicationDbContext();
+
+                    var checkingAccount = new CheckingAccount()
+                    {
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        AccountNumber = "0000123456",
+                        Balance = 0,
+                        ApplicationUserId = user.Id
+
+                    };
+                    //add newly created CheckingAccount object to dbcontext
+                    db.CheckingAccounts.Add(checkingAccount);
+                    //save changes to db
+                    db.SaveChanges();
+
+                    
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace AutomatedTellerMachine.ViewModels
 {
@@ -15,7 +11,7 @@ namespace AutomatedTellerMachine.ViewModels
         public string LastName { get; set; }
 
         [Required]
-        [EmailAddress]
+       // [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
