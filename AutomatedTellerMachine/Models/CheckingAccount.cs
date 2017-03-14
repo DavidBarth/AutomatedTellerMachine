@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AutomatedTellerMachine.Models
 {
@@ -7,8 +8,10 @@ namespace AutomatedTellerMachine.Models
         //primary key
         public int Id { get; set; }
 
-        [RegularExpression(@"\d{6,10}", ErrorMessage = "Account number must be between 6 and 10 digits.")]
+        // [RegularExpression(@"\d{6,10}", ErrorMessage = "Account number must be between 6 and 10 digits.")]
+        [StringLength(10)]
         [Display(Name="Account Number")]
+        [Column(TypeName = "varchar")]
         public string AccountNumber { get; set; }
 
         [Display(Name="First Name")]
@@ -34,7 +37,8 @@ namespace AutomatedTellerMachine.Models
         //for assigning a User object
         public virtual  ApplicationUser User { get; set; }
 
-        //id property of the related applicationuser entity
+        //foreign key property of the related applicationuser entity
+        [Required]
         public string ApplicationUserId { get; set; }
     }
 }

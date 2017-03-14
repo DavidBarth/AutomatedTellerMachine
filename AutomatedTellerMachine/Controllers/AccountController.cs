@@ -158,12 +158,17 @@ namespace AutomatedTellerMachine.Controllers
                 if (result.Succeeded)
                 {
                     var db = new ApplicationDbContext();
-
+                    
+                    //ONLY FOR DEV PURPOSES
+                    //using this arbitrary value instead of hardcoded account numbers but this solution 
+                    //could lead to errors becasue when you delete an account you can end up having duplicate acc.num.
+                    // should be storing it in a confing file...
+                    var accNumbber = (123456 + db.CheckingAccounts.Count()).ToString().PadLeft(10, '0');
                     var checkingAccount = new CheckingAccount()
                     {
                         FirstName = model.FirstName,
                         LastName = model.LastName,
-                        AccountNumber = "0000123456",
+                        AccountNumber = accNumbber,
                         Balance = 0,
                         ApplicationUserId = user.Id
 
