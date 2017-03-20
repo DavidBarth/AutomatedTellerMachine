@@ -1,4 +1,5 @@
 ﻿using AutomatedTellerMachine.Models;
+using AutomatedTellerMachine.Services;
 using AutomatedTellerMachine.ViewModels;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -157,27 +158,11 @@ namespace AutomatedTellerMachine.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    var db = new ApplicationDbContext();
-                    
-                    //ONLY FOR DEV PURPOSES
-                    //using this arbitrary value instead of hardcoded account numbers but this solution 
-                    //could lead to errors becasue when you delete an account you can end up having duplicate acc.num.
-                    // should be storing it in a confing file...
-                    var accNumbber = (123456 + db.CheckingAccounts.Count()).ToString().PadLeft(10, '0');
-                    var checkingAccount = new CheckingAccount()
-                    {
-                        FirstName = model.FirstName,
-                        LastName = model.LastName,
-                        AccountNumber = accNumbber,
-                        Balance = 0,
-                        ApplicationUserId = user.Id
-
-                    };
-                    //add newly created CheckingAccount object to dbcontext
-                    db.CheckingAccounts.Add(checkingAccount);
-                    //save changes to db
-                    db.SaveChanges();
-
+                    var checkingAccountService = new CheckingAccountService(HttpContext.GetOwinContext().Get<ApplicationDbContext>());
+                    checkingAccountService.CreateCheckingAccount(model.FirstName
+                        ,model.LastName
+                        ,user.Id
+                        , 0);
                     
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
@@ -398,8 +383,14 @@ namespace AutomatedTellerMachine.Controllers
                     result = await UserManager.AddLoginAsync(user.Id, info.Login);
                     if (result.Succeeded)
                     {
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        return RedirectToLocal(returnUrl);
+                        //Creating an entry in the DB after successful login
+                        var checkingAccountService = new CheckingAccountService(HttpContext.GetOwinContext().Get<ApplicationDbContext>());
+                        checkingAccountService.CreateCheckingAccount(
+                            "Facebook"
+                            , "User"
+                            , user.Id
+                            , 500);
+                        //return RedirectToLocal(returnUrl);
                     }
                 }
                 AddErrors(result);

@@ -1,11 +1,10 @@
-﻿using System;
+﻿using AutomatedTellerMachine.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.Google;
 using Owin;
-using AutomatedTellerMachine.Models;
+using System;
 
 namespace AutomatedTellerMachine
 {
@@ -54,9 +53,9 @@ namespace AutomatedTellerMachine
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "271062006669886",
+               appSecret: "6ff026ae8b9de2445e0afdbca4d39e03");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
-using System.Linq;
-using System.Web;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace AutomatedTellerMachine.Models
 {
@@ -12,7 +8,7 @@ namespace AutomatedTellerMachine.Models
         
         //generic DbSet to use the member to exposes CheckingAccount data 
         public DbSet<CheckingAccount> CheckingAccounts { get; set; }
-
+        public DbSet<Transaction> Transactions { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -23,6 +19,8 @@ namespace AutomatedTellerMachine.Models
         {
             return new ApplicationDbContext();
         }
+
+        
     }
    
 
