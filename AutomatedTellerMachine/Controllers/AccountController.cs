@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -158,8 +159,13 @@ namespace AutomatedTellerMachine.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    //once user is created we can
+                    //store the user's first name as a claim in the cookie
+                    UserManager.AddClaim(user.Id, new Claim(ClaimTypes.GivenName, model.FirstName));
+
                     var checkingAccountService = new CheckingAccountService(HttpContext.GetOwinContext().Get<ApplicationDbContext>());
-                    checkingAccountService.CreateCheckingAccount(model.FirstName
+                    checkingAccountService.CreateCheckingAccount
+                        (model.FirstName
                         ,model.LastName
                         ,user.Id
                         , 0);

@@ -5,6 +5,17 @@ namespace AutomatedTellerMachine.Controllers
 {
     public class CheckingAccountController : Controller
     {
+        private ApplicationDbContext _db;
+
+        public CheckingAccountController()
+        {
+            _db = new ApplicationDbContext();
+        }
+
+        public CheckingAccountController(ApplicationDbContext Context)
+        {
+            _db = Context;
+        }
         // GET: CheckingAccount
         public ActionResult Index()
         {
@@ -14,14 +25,16 @@ namespace AutomatedTellerMachine.Controllers
         // GET: CheckingAccount/Details/5
         public ActionResult Details() //working from memory currently, hence no 'int id'
         {
+         
+          
             //supplying test data and passing it to view
             var testData = new CheckingAccount
             {
                 
-                AccountNumber = "00001234",
+                AccountNumber = "",
                 FirstName = "David",
                 LastName = "Barth"
-            };
+            }; 
 
             return View(testData);
         }
