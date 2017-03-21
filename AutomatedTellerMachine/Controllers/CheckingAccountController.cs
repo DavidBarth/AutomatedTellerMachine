@@ -1,4 +1,6 @@
 ﻿using AutomatedTellerMachine.Models;
+using Microsoft.AspNet.Identity;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace AutomatedTellerMachine.Controllers
@@ -12,9 +14,9 @@ namespace AutomatedTellerMachine.Controllers
             _db = new ApplicationDbContext();
         }
 
-        public CheckingAccountController(ApplicationDbContext Context)
+        public CheckingAccountController(ApplicationDbContext context)
         {
-            _db = Context;
+            _db = context;
         }
         // GET: CheckingAccount
         public ActionResult Index()
@@ -25,18 +27,16 @@ namespace AutomatedTellerMachine.Controllers
         // GET: CheckingAccount/Details/5
         public ActionResult Details() //working from memory currently, hence no 'int id'
         {
-         
-          
-            //supplying test data and passing it to view
-            var testData = new CheckingAccount
-            {
-                
-                AccountNumber = "00001234",
-                FirstName = "David",
-                LastName = "Barth"
-            }; 
 
-            return View(testData);
+            var userId = User.Identity.GetUserId();
+            var checkingAccount = _db.CheckingAccounts.Where(u => u.ApplicationUserId == userId).First();
+
+            if (checkingAccount == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(checkingAccount);
         }
 
         // GET: CheckingAccount/Create
