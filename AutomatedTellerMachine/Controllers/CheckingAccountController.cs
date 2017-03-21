@@ -31,7 +31,7 @@ namespace AutomatedTellerMachine.Controllers
             var testData = new CheckingAccount
             {
                 
-                AccountNumber = "",
+                AccountNumber = "00001234",
                 FirstName = "David",
                 LastName = "Barth"
             }; 
