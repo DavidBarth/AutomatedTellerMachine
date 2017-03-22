@@ -8,10 +8,11 @@ namespace AutomatedTellerMachine.Models
         
         //generic DbSet to use the member to exposes CheckingAccount data 
         public DbSet<CheckingAccount> CheckingAccounts { get; set; }
+
         public DbSet<Transaction> Transactions { get; set; }
 
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("DefaultConnection")
         {
         }
 

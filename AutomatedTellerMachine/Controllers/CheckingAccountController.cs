@@ -5,27 +5,20 @@ using System.Web.Mvc;
 
 namespace AutomatedTellerMachine.Controllers
 {
+    [Authorize]
     public class CheckingAccountController : Controller
     {
-        private ApplicationDbContext _db;
-
-        public CheckingAccountController()
-        {
-            _db = new ApplicationDbContext();
-        }
-
-        public CheckingAccountController(ApplicationDbContext context)
-        {
-            _db = context;
-        }
+        private ApplicationDbContext _db = new ApplicationDbContext();
+       
         // GET: CheckingAccount
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: CheckingAccount/Details/5
-        public ActionResult Details() //working from memory currently, hence no 'int id'
+        // GET: CheckingAccount/Details/
+        // Showing details of currenty logged in user
+        public ActionResult Details() 
         {
 
             var userId = User.Identity.GetUserId();
@@ -38,6 +31,31 @@ namespace AutomatedTellerMachine.Controllers
 
             return View(checkingAccount);
         }
+
+
+        //[Authorize(Roles = "Admin")]
+        public ActionResult DetailsForAdmin(int id)
+        {
+
+           
+            var checkingAccount = _db.CheckingAccounts.Find(id);
+
+            if (checkingAccount == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View("Details",checkingAccount);
+        }
+
+        // GET: CheckingAccount/List
+        //[Authorize(Roles = "Admin")]
+        public ActionResult List()
+        {
+            return View(_db.CheckingAccounts.ToList());
+        }
+
+
 
         // GET: CheckingAccount/Create
         public ActionResult Create()
