@@ -33,7 +33,7 @@ namespace AutomatedTellerMachine.Controllers
         }
 
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult DetailsForAdmin(int id)
         {
 
@@ -49,7 +49,7 @@ namespace AutomatedTellerMachine.Controllers
         }
 
         // GET: CheckingAccount/List
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult List()
         {
             return View(_db.CheckingAccounts.ToList());
