@@ -1,5 +1,4 @@
 ﻿using AutomatedTellerMachine.Models;
-using Microsoft.Owin.Security.OAuth;
 using System.Web.Mvc;
 
 namespace AutomatedTellerMachine.Controllers
@@ -7,7 +6,21 @@ namespace AutomatedTellerMachine.Controllers
     [Authorize]
     public class TransactionController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private IApplicationDbContext _db;
+
+        public TransactionController()
+        {
+            _db = new ApplicationDbContext();
+        }
+
+
+        //with this constructor we pass a mock dbcontext to the controller
+        public TransactionController(IApplicationDbContext dbContext)
+        {
+            _db = dbContext;
+        }
+
+    
 
         //GET: Transaction/Deposit
         public ActionResult Deposit(int checkingAccountId) //For tutorial purposes just passing in the query string param
@@ -22,8 +35,8 @@ namespace AutomatedTellerMachine.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Transactions.Add(transaction);
-                db.SaveChanges();
+                _db.Transactions.Add(transaction);
+                _db.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }
             

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Web.Mvc;
+﻿using AutomatedTellerMachine.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AutomatedTellerMachine;
-using AutomatedTellerMachine.Controllers;
+using System.Web.Mvc;
 
 namespace AutomatedTellerMachine.Tests.Controllers
 {
@@ -50,5 +45,7 @@ namespace AutomatedTellerMachine.Tests.Controllers
             // Assert
             Assert.IsNotNull(result);
         }
+
+        
     }
 }
