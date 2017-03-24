@@ -1,38 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web;
+﻿using System.Data.Entity;
 
 namespace AutomatedTellerMachine.Models
 {
     public class FakeApplicationDbContext : IApplicationDbContext
     {
-        public IDbSet<CheckingAccount> CheckingAccounts
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
+        public IDbSet<CheckingAccount> CheckingAccounts { get; set; }
+       
+           
 
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public IDbSet<Transaction> Transactions
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public IDbSet<Transaction> Transactions { get; set; }
+       
 
         public int SaveChanges()
         {
