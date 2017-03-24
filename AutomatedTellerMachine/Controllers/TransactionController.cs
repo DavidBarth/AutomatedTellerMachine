@@ -1,4 +1,5 @@
 ﻿using AutomatedTellerMachine.Models;
+using AutomatedTellerMachine.Services;
 using System.Web.Mvc;
 
 namespace AutomatedTellerMachine.Controllers
@@ -33,15 +34,12 @@ namespace AutomatedTellerMachine.Controllers
         [HttpPost]
         public ActionResult Deposit(Transaction transaction)
         {
-            if (ModelState.IsValid)
-            {
-                _db.Transactions.Add(transaction);
-                _db.SaveChanges();
-                return RedirectToAction("Index", "Home");
-            }
-            
-                return View();
-            
+            if (!ModelState.IsValid) return View();
+            _db.Transactions.Add(transaction);
+            _db.SaveChanges();
+            var checkingAccountService = new CheckingAccountService(_db);
+            checkingAccountService.UpdateBalance(transaction.CheckingAccountId);
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Transaction

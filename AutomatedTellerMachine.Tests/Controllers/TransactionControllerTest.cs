@@ -30,7 +30,7 @@ namespace AutomatedTellerMachine.Tests.Controllers
             transActionController.Deposit(new Transaction { CheckingAccountId = 1, AmountDecimal = 1000 });
 
             //Assert
-            checkingAccount.Balance = 3000; //assert if the assert staement is valid or not
+            //checkingAccount.Balance = 3000; //assert if the assert staement is valid or not
                                             //and passing test the simplest way, otherwise test
                                             //fails as balance is not updated yet
             Assert.AreEqual(3000, checkingAccount.Balance);

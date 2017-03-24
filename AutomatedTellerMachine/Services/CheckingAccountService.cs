@@ -5,9 +5,9 @@ namespace AutomatedTellerMachine.Services
 {
     public class CheckingAccountService
     {
-        private ApplicationDbContext _db;
+        private IApplicationDbContext _db;
 
-        public CheckingAccountService(ApplicationDbContext dbContext)
+        public CheckingAccountService(IApplicationDbContext dbContext)
         {
             _db = dbContext;
         }
@@ -38,6 +38,22 @@ namespace AutomatedTellerMachine.Services
             _db.CheckingAccounts.Add(checkingAccount);
             //save changes to db
             _db.SaveChanges();
+        }
+
+        public void UpdateBalance(int checkingAccountId)
+        {
+            var checkingAccount = 
+                _db.CheckingAccounts
+                .Where(c => c.Id == checkingAccountId)
+                .First();
+
+            checkingAccount.Balance =
+                _db.Transactions
+                .Where(c => c.CheckingAccountId == checkingAccountId)
+                .Sum(c => c.AmountDecimal);
+
+            _db.SaveChanges();
+
         }
     }
 }
