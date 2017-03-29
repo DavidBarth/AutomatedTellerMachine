@@ -19,7 +19,7 @@ namespace AutomatedTellerMachine.Tests.Controllers
             {
                 Id = 1,
                 AccountNumber = "0000123TEST",
-                Balance = 2000
+                Balance = 0
             };
 
             fakeDb.CheckingAccounts.Add(checkingAccount);
@@ -29,11 +29,12 @@ namespace AutomatedTellerMachine.Tests.Controllers
             //Act
             transActionController.Deposit(new Transaction { CheckingAccountId = 1, AmountDecimal = 1000 });
 
+           
             //Assert
             //checkingAccount.Balance = 3000; //assert if the assert staement is valid or not
-                                            //and passing test the simplest way, otherwise test
-                                            //fails as balance is not updated yet
-            Assert.AreEqual(3000, checkingAccount.Balance);
+            //and passing test the simplest way, otherwise test
+            //fails as balance is not updated yet
+            Assert.AreEqual(1000, checkingAccount.Balance);
         }
     }
 }

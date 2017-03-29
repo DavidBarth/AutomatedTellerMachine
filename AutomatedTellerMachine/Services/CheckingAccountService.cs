@@ -46,12 +46,12 @@ namespace AutomatedTellerMachine.Services
                 _db.CheckingAccounts
                 .Where(c => c.Id == checkingAccountId)
                 .First();
-
-            checkingAccount.Balance =
+            
+           checkingAccount.Balance = 
                 _db.Transactions
                 .Where(c => c.CheckingAccountId == checkingAccountId)
                 .Sum(c => c.AmountDecimal);
-
+      
             _db.SaveChanges();
 
         }
