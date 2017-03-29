@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using System.Web.Mvc;
-using AutomatedTellerMachine.Models;
+﻿using AutomatedTellerMachine.Models;
 using Microsoft.AspNet.Identity;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace AutomatedTellerMachine.Controllers
 {
@@ -37,7 +37,7 @@ namespace AutomatedTellerMachine.Controllers
         {
             ViewBag.Message = "Thanks! We got your message!";
 
-            return View();
+            return PartialView("_contactThanks");
         }
     }
 }

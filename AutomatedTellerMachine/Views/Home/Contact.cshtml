@@ -17,8 +17,22 @@
 </address>
 
 <h3>@ViewBag.Message</h3>
-<form method="post">
-    <textarea name="message"></textarea>
-    <input type="submit" value="send" />
 
-</form>
+<div id="formSection">
+    <h3>@ViewBag.Message</h3>
+    @using (Ajax.BeginForm(new AjaxOptions
+    {
+        HttpMethod = "post", InsertionMode =
+            InsertionMode.Replace,
+        UpdateTargetId = "formSection"
+    }))
+    {
+        <textarea name="message"></textarea>
+        <input type="submit" value="send"/>
+    }
+</div>
+
+@section scripts {
+    
+<script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+}
